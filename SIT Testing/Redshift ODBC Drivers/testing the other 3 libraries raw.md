@@ -1,3 +1,54 @@
+## 🕒 Stopwatch-Based Manual Load Time Comparison
+
+These results reflect manual stopwatch timing when loading large tables via the user interface in each SAS tool.
+
+| Library  | SAS Studio (s) | SAS EG 8.5 (s) |
+| -------- | -------------- | -------------- |
+| DADODBC  | 67             | 61             |
+| DAD      | 69             | 61             |
+| MASTEROD | 94             | 81             |
+| MASTER   | 98             | 71             |
+| NACRSODB | 71             | 74             |
+| NACRS    | 89             | 74             |
+| CCRSODBC | 104            | 274            |
+| CCRS     | 94             | 269            |
+
+### 🔍 Key Notes:
+
+- DAD and NACRS libraries performed similarly across both tools.
+- MASTER showed slightly slower load times in SAS Studio.
+- CCRS loaded significantly faster in SAS Studio (~1:44) than in EG 8.5 (~4:34), likely due to improved data preview and rendering performance.
+- Stopwatch-based results show less variability than the `obs=1` macro tests and reflect real-world wait time perception.
+
+_These results complement the macro-based `obs=1` load timings and give a fuller picture of actual user experience._
+
+# 📊 SAS Viya Redshift ODBC Library Performance Benchmark – June 5, 2025
+
+**Environment**: SIT Viya Stage Server  
+**Tools Compared**: SAS Studio vs SAS Enterprise Guide (EG) 8.5  
+**Method**: `proc sql (obs=1)` select query per table  
+**Libraries Tested**: DADODBC, CCRSODBC, MASTEROD, NACRSODB  
+**Tables per Library**: 2 samples each  
+
+## 🔬 Load Times by Library
+
+| Library  | Table       | SAS Studio (s) | SAS EG (s) |
+| -------- | ----------- | -------------- | ---------- |
+| DADODBC  | DAD2324Q4   | 1.371          | 3.574      |
+|          | DAD2425Q1   | 1.006          | 3.116      |
+| CCRSODBC | CCRS2324Q1  | 1.065          | 3.136      |
+|          | CCRS2324Q2  | 0.998          | 2.977      |
+| MASTEROD | OHMREXT     | 2.299          | 3.316      |
+|          | OHMRYRT     | 2.393          | 3.578      |
+| NACRSODB | NACRS2324Q1 | 0.747          | 2.903      |
+|          | NACRS2324Q2 | 0.809          | 2.908      |
+
+## 🔍 Observations
+
+- **Studio is consistently faster** across all ODBC libraries tested.
+- **Average Studio load time** ≈ 1.46s vs **EG** ≈ 3.19s — a **>2x speed improvement**.
+- Results are consistent across all four schemas, suggesting a tool-level optimization difference.
+
 # SAS Viya Library and Table Performance Benchmarking
 
 This report compares the performance of two SAS libraries — **DAD** (non-Redshift ODBC) and **DADODBC** (Redshift ODBC) — across two interfaces: **SAS Enterprise Guide 8.5 (EG)** and **SAS Studio**. Both **manual stopwatch timing** and **programmatic benchmarking** were used.
